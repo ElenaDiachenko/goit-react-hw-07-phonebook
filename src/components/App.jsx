@@ -1,31 +1,17 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+import { contactAdded } from '../redux/contactsSlice';
+import { allContacts } from '../redux/contactsSlice';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { Notify } from 'notiflix';
 import { Title, TitleContact, Section } from './App.styled';
 
-const initialContacts = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
-
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) ?? initialContacts
-  );
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  const dispatch = useDispatch();
+  const contacts = useSelector(allContacts);
 
   const addContact = ({ name, number }) => {
-    const newContact = { id: nanoid(), name, number };
-
     contacts.find(contact => contact.name === name)
       ? Notify.info(`${name} is already in contacts`, {
           position: 'center-top',
@@ -39,38 +25,16 @@ export const App = () => {
             notiflixIconColor: 'rgba(225,225,225,0.5)',
           },
         })
-      : setContacts(prevContacts => [newContact, ...prevContacts]);
+      : dispatch(contactAdded(name, number));
   };
 
-  const filterHandler = e => {
-    const { value } = e.target;
-    setFilter(value.toLowerCase().trim());
-  };
-
-  const filterContactList = () => {
-    const normalizedFilter = filter.toLowerCase();
-
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  const deleteContact = contactId => {
-    const filteredContacts = contacts.filter(
-      contact => contact.id !== contactId
-    );
-    setContacts(filteredContacts);
-  };
   return (
     <Section>
       <Title>Phonebook</Title>
       <ContactForm onSubmit={addContact} />
       <TitleContact>Contacts</TitleContact>
-      <Filter value={filter} onChange={filterHandler} />
-      <ContactList
-        contacts={filterContactList()}
-        onDeleteContact={deleteContact}
-      />
+      <Filter />
+      <ContactList />
     </Section>
   );
 };
