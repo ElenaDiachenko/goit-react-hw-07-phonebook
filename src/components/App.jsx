@@ -9,6 +9,18 @@ import { Notify } from 'notiflix';
 import { Title, TitleContact, Section } from './App.styled';
 import { useGetContactsQuery, useAddContactMutation } from '../redux/contactsSlice';
 
+const options = {
+  position: 'center-top',
+  fontSize: '20px',
+  width: '450px',
+  borderRadius: '4px',
+  closeButton: true,
+  info: {
+    background: '#000000',
+    color: '#ffffff',
+    notiflixIconColor: 'rgba(225,225,225,0.5)',
+  },
+};
 export const App = () => {
   // const dispatch = useDispatch();
   // const contacts = useSelector(allContacts);
@@ -16,19 +28,10 @@ export const App = () => {
   const [addContact] = useAddContactMutation();
 
   const handleAddContact = async values => {
+    console.log(Object.values(values));
+    // if( Object.values(values))
     if (contacts.find(contact => contact.name === values.name)) {
-      Notify.info(`${values.name} is already in contacts`, {
-        position: 'center-top',
-        fontSize: '20px',
-        width: '450px',
-        borderRadius: '4px',
-        closeButton: true,
-        info: {
-          background: '#000000',
-          color: '#ffffff',
-          notiflixIconColor: 'rgba(225,225,225,0.5)',
-        },
-      });
+      Notify.info(`${values.name} is already in contacts`, options);
       return;
     }
     try {

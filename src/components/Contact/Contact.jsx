@@ -10,6 +10,7 @@ export const Contact = ({ id, name, phone }) => {
     <>
       <ContactName>{name} :</ContactName>
       <ContactNumber>{phone}</ContactNumber>
+      <DeleteButton>Delete</DeleteButton>
       {/* <DeleteButton onClick={() => dispatch(contactDelete({ id }))}>Delete</DeleteButton> */}
     </>
   );
@@ -18,5 +19,5 @@ export const Contact = ({ id, name, phone }) => {
 Contact.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
 };

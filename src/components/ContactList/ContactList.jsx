@@ -6,10 +6,10 @@ import { Contact } from 'components/Contact/Contact';
 import { useGetContactsQuery } from '../../redux/contactsSlice';
 
 export const ContactList = () => {
-  const { data: contacts, isFetching, error } = useGetContactsQuery();
-  // console.log(contacts);
-  // console.log(error);
-  // console.log(isFetching);
+  const { data: contacts, error, isLoading } = useGetContactsQuery();
+  console.log(contacts);
+  console.log(error);
+  console.log(isLoading);
 
   // const contacts = useGetContactsQuery();
   // const contacts = useSelector(allContacts);
@@ -20,14 +20,17 @@ export const ContactList = () => {
 
   //   return contacts.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
   // };
-
+  // if (contacts.length < 0) return <div>Missing contacts!</div>;
   return (
     <Box as="ul" display="flex" flexDirection="column" gridGap={3}>
-      {contacts.map(({ id, name, phone }) => (
-        <ContactItem key={id}>
-          <Contact name={name} phone={phone} id={id} />
-        </ContactItem>
-      ))}
+      {isLoading && <div>Loading...</div>}
+      {error && <p>Something went wrong/ Try again later</p>}
+      {contacts &&
+        contacts.map(({ id, name, phone }) => (
+          <ContactItem key={id}>
+            <Contact name={name} phone={phone} id={id} />
+          </ContactItem>
+        ))}
     </Box>
   );
 };

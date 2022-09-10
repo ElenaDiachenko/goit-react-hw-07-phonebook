@@ -22,7 +22,7 @@ export const ContactForm = ({ onSubmit }) => {
   const handleSubmit = (values, actions) => {
     // console.log(values);
     onSubmit(values);
-    // setSubmitting(false);
+
     actions.resetForm();
   };
   return (
