@@ -7,35 +7,26 @@ const schema = yup.object().shape({
   name: yup
     .string()
     .required('This field is Required')
-    .matches(
-      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-      'Name is not valid'
-    ),
-  number: yup
+    .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, 'Name is not valid'),
+  phone: yup
     .string()
     .required('This field is Required')
-    .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-      'Phone number is not valid'
-    ),
+    .matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number is not valid'),
 });
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 export const ContactForm = ({ onSubmit }) => {
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = (values, actions) => {
     // console.log(values);
     onSubmit(values);
-    resetForm();
+    // setSubmitting(false);
+    actions.resetForm();
   };
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={schema}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit}>
       <Form>
         <Label>
           Name
@@ -45,8 +36,8 @@ export const ContactForm = ({ onSubmit }) => {
 
         <Label>
           Number
-          <Input type="tel" name="number" />
-          <Message name="number" component="span" />
+          <Input type="tel" name="phone" />
+          <Message name="phone" component="span" />
         </Label>
         <Button type="submit">Add contact</Button>
       </Form>
