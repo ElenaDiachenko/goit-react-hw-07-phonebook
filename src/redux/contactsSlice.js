@@ -20,10 +20,17 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contact'],
     }),
+    deleteContact: builder.mutation({
+      query: id => ({
+        url: `contacts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Contact'],
+    }),
   }),
 });
 
-export const { useGetContactsQuery, useAddContactMutation } = contactsApi;
+export const { useGetContactsQuery, useAddContactMutation, useDeleteContactMutation } = contactsApi;
 
 // import { createSlice, nanoid } from '@reduxjs/toolkit';
 // import { persistReducer } from 'redux-persist';

@@ -22,14 +22,12 @@ const options = {
   },
 };
 export const App = () => {
-  // const dispatch = useDispatch();
-  // const contacts = useSelector(allContacts);
   const { data: contacts, isFetching, error } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
 
   const handleAddContact = async values => {
     console.log(Object.values(values));
-    // if( Object.values(values))
+
     if (contacts.find(contact => contact.name === values.name)) {
       Notify.info(`${values.name} is already in contacts`, options);
       return;
@@ -61,9 +59,9 @@ export const App = () => {
 
   return (
     <Section>
-      {/* <Title>Phonebook</Title> */}
+      <Title>Phonebook</Title>
       <ContactForm onSubmit={handleAddContact} />
-      {/* <TitleContact>Contacts</TitleContact> */}
+      <TitleContact>Contacts</TitleContact>
       <Filter />
       <ContactList />
     </Section>
