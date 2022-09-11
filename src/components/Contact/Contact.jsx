@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { ContactName, ContactNumber, DeleteButton } from './Contact.styled';
-import { useDeleteContactMutation } from '../../redux/contactsSlice';
+import { useDeleteContactMutation } from '../../redux/contactsApiSlice';
 
 export const Contact = ({ id, name, phone }) => {
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
