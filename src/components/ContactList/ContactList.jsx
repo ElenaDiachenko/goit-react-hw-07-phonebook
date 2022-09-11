@@ -27,15 +27,14 @@ export const ContactList = () => {
       )}
       {error && <p>Something went wrong/ Try again later</p>}
 
-      {contacts && !isLoading && filteredContacts.length > 0 ? (
-        filteredContacts.map(({ id, name, phone }) => (
-          <ContactItem key={id}>
-            <Contact name={name} phone={phone} id={id} />
-          </ContactItem>
-        ))
-      ) : (
-        <p>Missing contacts!</p>
-      )}
+      {contacts && !isLoading && filteredContacts.length > 0
+        ? filteredContacts.map(({ id, name, phone }) => (
+            <ContactItem key={id}>
+              <Contact name={name} phone={phone} id={id} />
+            </ContactItem>
+          ))
+        : null}
+      {!contacts && !isLoading && filteredContacts.length <= 0 ? <p>Missing contacts!</p> : null}
     </Box>
   );
 };
