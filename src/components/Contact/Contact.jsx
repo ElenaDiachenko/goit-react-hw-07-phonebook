@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { ContactName, ContactNumber, DeleteButton } from './Contact.styled';
 import { useDeleteContactMutation } from '../../redux/contactsApiSlice';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const Contact = ({ id, name, phone }) => {
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
@@ -10,7 +11,8 @@ export const Contact = ({ id, name, phone }) => {
       <ContactName>{name} :</ContactName>
       <ContactNumber>{phone}</ContactNumber>
       <DeleteButton onClick={() => deleteContact(id)} disabled={isLoading}>
-        Delete
+        {!isLoading && 'Delete'}
+        {isLoading && <ClipLoader color="#ffffff" size={12} />}
       </DeleteButton>
     </>
   );

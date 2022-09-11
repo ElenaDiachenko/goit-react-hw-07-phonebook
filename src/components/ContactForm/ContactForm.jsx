@@ -2,6 +2,7 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { Button, Label, Input, Message } from './ContactForm.styled';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const schema = yup.object().shape({
   name: yup
@@ -19,28 +20,34 @@ const initialValues = {
   phone: '',
 };
 export const ContactForm = ({ onSubmit }) => {
-  const handleSubmit = (values, actions) => {
-    // console.log(values);
-    onSubmit(values);
-
+  const handleSubmit = async (values, actions) => {
+    await onSubmit(values);
+    actions.setSubmitting(false);
     actions.resetForm();
   };
   return (
     <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit}>
-      <Form>
-        <Label>
-          Name
-          <Input type="text" name="name" />
-          <Message name="name" component="span" />
-        </Label>
+      {({ isSubmitting }) => {
+        return (
+          <Form>
+            <Label>
+              Name
+              <Input type="text" name="name" />
+              <Message name="name" component="span" />
+            </Label>
 
-        <Label>
-          Number
-          <Input type="tel" name="phone" />
-          <Message name="phone" component="span" />
-        </Label>
-        <Button type="submit">Add contact</Button>
-      </Form>
+            <Label>
+              Number
+              <Input type="tel" name="phone" />
+              <Message name="phone" component="span" />
+            </Label>
+            <Button type="submit" disabled={isSubmitting}>
+              {!isSubmitting && 'Add contact'}
+              {isSubmitting && <ClipLoader color="#ffffff" size={12} />}
+            </Button>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
